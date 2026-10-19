@@ -1,0 +1,34 @@
+import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Main {
+    public static void main(String[] args) {
+        //Proceso para linux con error
+        // Error en la construcion del ProcessBuilder
+        //ProcessBuilder processBuilder = new ProcessBuilder("ls -l","");
+        ProcessBuilder processBuilder = new ProcessBuilder("ls","-");
+        Process process=null;
+        try{
+            //Lanzo el processo
+            process=processBuilder.start();
+
+            //Para salida Estandar
+            BufferedReader stdOut = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            //Para Salida de Errores
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+
+            //Salida del input
+            System.out.println("---Salida Standar----");
+            stdOut.lines().forEach(System.out::println);
+
+            //Salida de errores
+            System.out.println("---Salida Error----");
+            stdError.lines().forEach(System.out::println);
+        } catch (Exception e) {
+            System.out.println("-----ERROR-----");
+            e.printStackTrace();
+        }
+
+    }
+}
